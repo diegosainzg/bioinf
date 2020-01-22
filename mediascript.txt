@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "Media without: " $1
+list=`grep -sirL $1 $2|grep -E '.txt$'|awk -F'[/]' '{print $2}'`
+for file in $list
+do
+	cd /home/diego/Downloads/media
+	if grep  -q 'Microorganisms' $file 
+	then
+		if grep -qiE '(VERRUCOMICROBIA MEDIUM)' $file
+		then 
+			echo "Media number: " `sed -n '5p' $file`
+		exit 
+		fi
+		if grep -qiE '(Glucose minerals salt)' $file
+		then
+			echo "Media number: 1458 " `sed -n '6p' $file`
+		else
+			echo "Media number: " `sed -n '6p' $file`
+		fi
+	else
+		echo " Media number: " ` head -1 $file`
+	fi
+done
+

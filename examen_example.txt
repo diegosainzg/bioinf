@@ -1,0 +1,22 @@
+#!/bin/bash
+#Part1
+awk -v max=0 'FNR>1{if($6>max){want=$1;max=$6;time=$2}}END{print"Name:" want"\nTime:" time"\nradius: " max}' $1
+echo ""
+
+#Part 2 When is the cell ABarpp born? 
+firsttime=$(grep -w -m 1 "ABarpp" $1|awk '{print $2}')
+echo "$firsttime"
+
+#Part3 last moment when ABarpp is present
+lasttime=$(grep -w  "ABarpp" $1|awk '{print $2}'|tail -1)
+echo "$lasttime"
+alivetime=$((lasttime-firsttime))
+echo "$alivetime"
+
+#Part4 : how many left and gow many right
+
+lef1=$(grep -E "ABal.*|ABpl.*" $1| cut -f1|sort|uniq|wc -l)
+echo "Left:" $lef1
+right1=$(grep -E "ABar.*|ABpr.*" $1| cut -f1|sort|uniq|wc -l)
+echo "Right:" $right1
+
